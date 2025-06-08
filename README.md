@@ -14,7 +14,7 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ## Installation
 
-> **Note**
+> [!Note]
 > This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you’ve set up that environment before continuing.
 
 ### 1. Clone the F1TENTH Project Repository
