@@ -25,7 +25,7 @@ git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 
 ### 2. Set Up the Environment
 
-Follow the instructions provided in the [F1TENTH Project README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to set up dependencies and the ROS 2 environment.
+Follow the instructions provided in the [F1TENTH Project README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to set up dependencies.
 
 ### 3. Navigate to the `src` Directory
 
