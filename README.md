@@ -14,7 +14,7 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ## Installation
 
-> **Note**
+> [!Note]
 > This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you’ve set up that environment before continuing.
 
 ### 1. Clone the F1TENTH Project Repository
@@ -25,12 +25,12 @@ git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 
 ### 2. Set Up the Environment
 
-Follow the instructions provided in the [F1TENTH Project README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to set up dependencies and the ROS 2 environment.
+Follow the instructions provided in the [F1TENTH Project README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to set up dependencies.
 
 ### 3. Navigate to the `src` Directory
 
 ```bash
-cd F1TENTH_PROJECT/f1tenth_ws/src
+cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 ```
 
 ### 4. Clone the Braking System Package
