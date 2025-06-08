@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "breaking_publisher",
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.autoComplete.extraPaths": [
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/robot_bridge/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/example_description/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/calibration_gen/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/break_controller/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/ackerman_odometry/local/lib/python3.10/dist-packages",
+			"/opt/ros/humble/lib/python3.10/site-packages",
+			"/opt/ros/humble/local/lib/python3.10/dist-packages"
+		],
+		"python.analysis.extraPaths": [
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/robot_bridge/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/example_description/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/calibration_gen/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/break_controller/local/lib/python3.10/dist-packages",
+			"/home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws/install/ackerman_odometry/local/lib/python3.10/dist-packages",
+			"/opt/ros/humble/lib/python3.10/site-packages",
+			"/opt/ros/humble/local/lib/python3.10/dist-packages"
+		],
+		"ros.distro": "humble"
+	}
+}
