@@ -11,9 +11,10 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 ## Table of Contents
 - [Overview](#overview)
 - [Installation](#installation)
+- [Our Team](#our-team)
 
 ## Installation
-
+Our Team
 > [!Note]
 > This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you’ve set up that environment before continuing.
 
@@ -55,3 +56,8 @@ source ~/f1tenth_ws/install/setup.bash
 ```
 
 ---
+
+## Our Team
+- **67340700402** พงษ์พัฒน์ วงศ์กำแหงหาญ
+- **67340700403** พีรดนย์ เรืองแก้ว
+
