@@ -30,7 +30,7 @@ Follow the instructions provided in the [F1TENTH Project README](https://github.
 ### 3. Navigate to the `src` Directory
 
 ```bash
-cd F1TENTH_PROJECT/f1tenth_ws/src
+cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 ```
 
 ### 4. Clone the Braking System Package
