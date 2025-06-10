@@ -56,7 +56,14 @@ source ~/f1tenth_ws/install/setup.bash
 ```
 
 ---
+## Hardware 
 
+Braking Schematic:
+![Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
+
+
+
+---
 ## Our Team
 - **67340700402** พงษ์พัฒน์ วงศ์กำแหงหาญ
 - **67340700403** พีรดนย์ เรืองแก้ว
