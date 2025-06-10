@@ -58,8 +58,7 @@ source ~/f1tenth_ws/install/setup.bash
 ---
 ## Hardware 
 
-Braking Schematic:
-![Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
+Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 
 
 
