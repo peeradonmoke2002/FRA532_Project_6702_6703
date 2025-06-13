@@ -17,12 +17,12 @@
 // ——————————————————————————————
 // 1) PWM setup & LED
 // ——————————————————————————————
-Coil coils(
-  25, 26,  // GPIO pins for coil
-  0, 1,    // LEDC channels
-  1000,    // frequency
-  8        // resolution
-);
+Coil coils(25, 26, 0, 1, 500, 1000, 8);
+//  - pin1 = 25, pin2 = 26
+//  - ch1 = 0 (LEDC channel 0), ch2 = 1 (LEDC channel 1)
+//  - freq1 = 500 Hz for coil #1, freq2 = 1000 Hz for coil #2
+//  - resolution = 8 bits (duty cycle range: 0–255)
+
 
 const int LED_PIN = 2;      // ESP32 built-in LED
 volatile bool mode_enabled = false;

@@ -1,8 +1,9 @@
+// Coil.h
 #pragma once
 #include <Arduino.h>
 
 /**
- * @brief Simple PWM-driven dual-coil controller using ESP32 LEDC.
+ * @brief PWM-driven dual-coil controller using ESP32 LEDC with independent frequencies.
  */
 class Coil {
 public:
@@ -11,12 +12,15 @@ public:
    * @param pin2       GPIO for coil #2 PWM output
    * @param ch1        LEDC channel for coil #1 (0–15)
    * @param ch2        LEDC channel for coil #2 (0–15)
-   * @param freq       PWM frequency in Hz
+   * @param freq1      PWM frequency in Hz for coil #1
+   * @param freq2      PWM frequency in Hz for coil #2
    * @param resolution PWM resolution in bits (e.g. 8 → duty range 0–255)
    */
-  Coil(int pin1, int pin2, int ch1, int ch2, int freq, int resolution);
+  Coil(int pin1, int pin2, int ch1, int ch2,
+       int freq1, int freq2,
+       int resolution);
 
-  /// Configure LEDC and ensure coils start off
+  /// Configure LEDC channels and ensure coils start off
   void begin();
 
   /**
@@ -31,7 +35,6 @@ public:
 private:
   int _pin1, _pin2;
   int _ch1, _ch2;
-  int _freq, _res;
-  
-  // no custom destructor needed unless subclassing
+  int _freq1, _freq2;
+  int _res;
 };
