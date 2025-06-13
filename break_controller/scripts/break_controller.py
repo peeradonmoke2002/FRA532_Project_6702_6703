@@ -22,8 +22,8 @@ class break_controller(Node):
         raw = msg.axes[5]
 
         if mode.data:
-            # invert so unpressed→0, full press→255
-            duty_val = int((1.0 - raw) * 0.5 * 255)
+            # map raw [1…-1] to [0…127] for 50% max
+            duty_val = int((1.0 - raw) * 0.5 * 127)
         else:
             duty_val = 0
 
@@ -33,6 +33,7 @@ class break_controller(Node):
         self.get_logger().debug(
             f'mode={mode.data}, axis5={raw:.2f}, duty={duty_val}'
         )
+
 
 def main():
     rclpy.init()
