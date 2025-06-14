@@ -29,6 +29,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/dummy_script.py
   scripts/break_controller.py
+  scripts/joy_control.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

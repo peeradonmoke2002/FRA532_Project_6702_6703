@@ -5,19 +5,20 @@
     device_id: 0
     deadzone: 0.05
     autorepeat_rate: 20.0
+    coalesce_interval: 0.01
 
-/teleop_node:
-  ros__parameters:
-    axis_linear:
-      x: 1
-    scale_linear:
-      x: 0.5
+# /teleop_node:
+#   ros__parameters:
+#     axis_linear:
+#       x: 1
+#     scale_linear:
+#       x: 0.5
     
 
-    axis_angular:
-      yaw: 0
-    scale_angular:
-      yaw: 0.5
+#     axis_angular:
+#       yaw: 0
+#     scale_angular:
+#       yaw: 0.5
 
-    enable_button: 6
-    require_enable_button: true
+#     enable_button: 6
+#     require_enable_button: true

@@ -17,10 +17,9 @@ def generate_launch_description():
             parameters=[joy_parameters_file],
         ),
         Node(
-            package='teleop_twist_joy',
-            executable='teleop_node',
-            name='teleop_node',
-            parameters=[joy_parameters_file],
+            package='break_controller',
+            executable='joy_control.py',
+            name='joy_control',
         ),
         Node(
             package='break_controller',

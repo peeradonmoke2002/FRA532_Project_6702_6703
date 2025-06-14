@@ -17,7 +17,7 @@
 // ——————————————————————————————
 // 1) PWM setup & LED
 // ——————————————————————————————
-Coil coils(25, 26, 0, 1, 500, 1000, 8);
+Coil coils(25, 26, 0, 1, 1000, 1000, 8);
 //  - pin1 = 25, pin2 = 26
 //  - ch1 = 0 (LEDC channel 0), ch2 = 1 (LEDC channel 1)
 //  - freq1 = 500 Hz for coil #1, freq2 = 1000 Hz for coil #2
