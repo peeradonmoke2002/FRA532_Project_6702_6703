@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
@@ -8,45 +9,51 @@ from std_msgs.msg import Bool, UInt8
 class BreakController(Node):
     def __init__(self):
         super().__init__('break_controller')
-        # subscribe to the raw /joy topic
-        self.create_subscription(Joy, 'joy', self.cb_joy, 10)
-        # publishers for your two topics
-        self.pub_mode = self.create_publisher(Bool, 'mode', 10)
-        self.pub_pwm  = self.create_publisher(UInt8, 'pwm_duty', 10)
-        # new: publisher to cmd_vel
-        self.pub_cmd_vel = self.create_publisher(Twist, 'cmd_vel', 10)
 
-        # pre-create a zero-Twist to avoid reallocating
+        # === Configuration ===
+        self.enable_button = 6      # hold to enable braking input
+        self.trigger_axis  = 5      # L2 trigger
+        self.max_duty      = 255    # full-scale PWM
+        self.duty_scale    = 1    # fraction of max_duty
+
+        # === ROS interfaces ===
+        self.create_subscription(Joy,  'joy',     self.cb_joy,  10)
+        self.pub_mode       = self.create_publisher(Bool, 'mode',      10)
+        self.pub_pwm        = self.create_publisher(UInt8,'pwm_duty', 10)
+        self.pub_cmd_vel    = self.create_publisher(Twist,'cmd_vel',   10)
+
+        # Pre-create zero-Twist for quick reuse
         self._zero_twist = Twist()
-        self._zero_twist.linear.x = 0.0
-        self._zero_twist.linear.y = 0.0
-        self._zero_twist.linear.z = 0.0
-        self._zero_twist.angular.x = 0.0
-        self._zero_twist.angular.y = 0.0
-        self._zero_twist.angular.z = 0.0
+
+    @staticmethod
+    def _clamp(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
+        return max(lo, min(hi, x))
 
     def cb_joy(self, msg: Joy):
-        # BUTTON 6 hold → mode on/off
-        mode = Bool(data=bool(msg.buttons[6]))
-        self.pub_mode.publish(mode)
-
-        # read L2 trigger: raw in [-1…1], default=1, pressed→-1
-        raw = msg.axes[5]
-
-        if mode.data:
-            # invert so unpressed→0, full press→255
-            duty_val = int((1.0 - raw) * 0.5 * 255)
-            # braking engaged → immediately stop robot
-            self.pub_cmd_vel.publish(self._zero_twist)
-        else:
-            duty_val = 0
-
-        pwm = UInt8(data=duty_val)
-        self.pub_pwm.publish(pwm)
-
-        self.get_logger().debug(
-            f'mode={mode.data}, axis5={raw:.2f}, duty={duty_val}'
+        # 1) Publish mode (enabled or not)
+        enabled = (
+            len(msg.buttons) > self.enable_button
+            and msg.buttons[self.enable_button] == 1
         )
+        self.pub_mode.publish(Bool(data=enabled))
+
+        # 2) Compute pwm_duty if enabled
+        if enabled and len(msg.axes) > self.trigger_axis:
+            raw = self._clamp(msg.axes[self.trigger_axis])  # [+1..-1]
+            normalized = (1.0 - raw) * 0.5                  # [0..1]
+            duty = int(normalized * self.max_duty * self.duty_scale)
+        else:
+            duty = 0
+
+        # 3) Publish PWM
+        self.pub_pwm.publish(UInt8(data=duty))
+
+        # 4) If there is braking force (duty > 0), send zero cmd_vel
+        if duty > 0:
+            self.pub_cmd_vel.publish(self._zero_twist)
+
+        # 5) Debug log
+        self.get_logger().debug(f"enabled={enabled}, raw={raw if enabled else 'N/A'}, duty={duty}")
 
 def main():
     rclpy.init()

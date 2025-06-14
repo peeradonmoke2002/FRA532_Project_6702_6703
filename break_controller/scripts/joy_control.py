@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import rclpy
 from rclpy.node import Node
@@ -10,71 +10,60 @@ class JoyControl(Node):
     def __init__(self):
         super().__init__('joy_control')
 
-        # === Settings ===
-        self.v_max         = 2.5                        # max linear speed (m/s)
-        self.w_max         = np.tan(0.698) / 0.263      # max angular speed (rad/s)
-        self.deadzone      = 0.05                       # joystick deadzone
-        self.enable_button = 6                          # only move while this is held
+        # ===== CONFIGURATION =====
+        self.V_MAX                = 2.5    # m/s
+        self.W_MAX                = np.tan(0.698) / 0.263
+        self.SPEED_AXIS           = 4      # right trigger
+        self.STEER_AXIS           = 0      # left stick horizontal
+        self.SPEED_ENABLE_BUTTON  = 7      # dead-man for speed
+        self.DIR_TOGGLE_BUTTON    = 1      # flip fwd/rev
 
-        # === ROS interfaces ===
-        self.sub = self.create_subscription(
-            Joy, 'joy', self.joy_callback, 10
-        )
-        self.pub = self.create_publisher(
-            Twist, 'cmd_vel', 10
-        )
+        # ===== STATE =====
+        self.direction            = 1
+        self._prev_dir_pressed    = False
 
-        # reuse one Twist message
+        # ===== ROS INTERFACES =====
+        self.sub   = self.create_subscription(Joy, 'joy',    self.joy_cb, 10)
+        self.pub   = self.create_publisher(Twist, 'cmd_vel', 10)
         self.twist = Twist()
 
-    @staticmethod
-    def _clamp(x, low: float = -1.0, high: float = 1.0) -> float:
-        """Clamp x to the interval [low, high]."""
-        return max(low, min(high, x))
+    def joy_cb(self, msg: Joy):
+        # 1) Toggle forward/back on button 1 (rising edge)
+        dir_pressed = (msg.buttons[self.DIR_TOGGLE_BUTTON] == 1)
+        if dir_pressed and not self._prev_dir_pressed:
+            self.direction *= -1
+            mode = 'FORWARD' if self.direction>0 else 'REVERSE'
+            self.get_logger().info(f'Direction → {mode}')
+        self._prev_dir_pressed = dir_pressed
 
-    def _apply_deadzone(self, x: float) -> float:
-        """Zero out small joystick noise around zero."""
-        return x if abs(x) > self.deadzone else 0.0
+        # 2) Compute speed (only while button 7 held)
+        speed = 0.0
+        if msg.buttons[self.SPEED_ENABLE_BUTTON] == 1:
+            # joy_node already applied deadzone & rate limiting
+            raw = msg.axes[self.SPEED_AXIS]            # +1→unpressed, –1→full press
+            normalized = (1.0 - raw) * 0.5             # maps [+1..–1]→[0..1]
+            speed = normalized * self.V_MAX * self.direction
 
-    def joy_callback(self, msg: Joy):
-        # deadman switch: only drive while button 6 is held
-        pressed = (
-            len(msg.buttons) > self.enable_button
-            and msg.buttons[self.enable_button] == 1
-        )
-
-        if pressed and len(msg.axes) > 2:
-            # read & sanitize raw inputs
-            raw_fwd   = msg.axes[1]        # already filtered by joy_node
-            raw_steer = msg.axes[2]
-
-            # # apply deadzone
-            # raw_fwd   = self._apply_deadzone(raw_fwd)
-            # raw_steer = self._apply_deadzone(raw_steer)
-
-            # scale → real-world commands
-            self.twist.linear.x  = raw_fwd  * self.v_max
-            self.twist.angular.z = raw_steer * self.w_max
+        # 3) Compute steering from axis 0 (±1 → ±W_MAX)
+        steer_val = msg.axes[self.STEER_AXIS]
+        if steer_val > 0.0:
+            steer = +self.W_MAX   # full left
+        elif steer_val < 0.0:
+            steer = -self.W_MAX   # full right
         else:
-            # zero out to ensure robot stops
-            self.twist.linear.x  = 0.0
-            self.twist.angular.z = 0.0
+            steer = 0.0           # centered
 
-        # always publish so the controller receives stop commands too
+        # 4) Fill & publish
+        self.twist.linear.x   = speed
+        self.twist.angular.z  = steer
         self.pub.publish(self.twist)
-
 
 def main(args=None):
     rclpy.init(args=args)
     node = JoyControl()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        node.destroy_node()
-        rclpy.shutdown()
-
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
