@@ -20,11 +20,11 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 The F1TENTH Braking System delivers both software and hardware for actuating a disc brake on your F1TENTH vehicle. It is designed to enable controlled drifting and improved stopping power, with easy integration into your existing F1TENTH ROS 2 environment.
 
----
+---s
 
 ## Installation
 
-> **Note**
+> [!Note]
 > This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you have that environment set up before proceeding.
 
 ### 1. Clone the F1TENTH Project Repository
@@ -66,7 +66,7 @@ source ~/f1tenth_ws/install/setup.bash
 
 ### 7. Launch the Braking System
 
-> **Warning**
+> ![Warning]
 > Before launching, please ensure your ESP32 and joystick are connected to the Raspberry Pi.
 > Also ensure that the [esp32\_micro\_ros](./docker-compose.yml) docker container is present and running on the Pi.
 
@@ -104,7 +104,7 @@ You should see:
 /pwm_duty
 ```
 
-> **Warning**
+> ![Warning]
 > If you can't control the speed or braking after running [step 7](#7-launch-the-braking-system), please check if the following topics are visible:
 >
 > ```bash
