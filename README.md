@@ -60,8 +60,9 @@ source ~/f1tenth_ws/install/setup.bash
 
 Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 
-### problem / Goal
+### problem MK I
  problem 1.1 Mount Misalignment between the coil’s actuator surface and the brake target disc
+![coil](https://github.com/peeradonmoke2002/FRA532_Project_6702_6703/blob/main/.images/problem_1.JPG)
  problem 1.2  The current coil is physically too small to generate strong magnetic force because of tight mechanical space in the chassis. If more space were available
 
 ### coil spec 
