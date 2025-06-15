@@ -60,6 +60,23 @@ source ~/f1tenth_ws/install/setup.bash
 
 Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 
+### problem / Goal
+
+
+### Build instrutions
+
+### coil spec 
+
+| Property | Value |
+|----------|-------|
+| Core Type | Steel  |
+| Outer Diameter | 12 mm |
+| Inner Diameter | 8 mm |
+| Wire Used | 0.5 mm magnet wire |
+| Power | 12V DC |
+| Resistance | ~1.5 ohms  |
+| Current | ~8 amp |
+
 
 
 ---
