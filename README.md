@@ -102,7 +102,9 @@ Should show:
 > /pwm_duty
 > ```
 > If not, please reset the ESP32 by pressing the reset button on the board.
-> ![ESP32 Reset Button](.images/esp32_resetbutton.png)
+> <p align="center">
+>     <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="200" />
+> </p>
 
 
 
