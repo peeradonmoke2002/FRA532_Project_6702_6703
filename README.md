@@ -18,13 +18,13 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ## Overview
 
-The F1TENTH Braking System delivers software and hardware for actuating a disc brake on your F1TENTH vehicle. It is designed to enable controlled drifting and improved stopping power, with easy integration into your existing F1TENTH ROS 2 environment.
+The F1TENTH Braking System delivers both software and hardware for actuating a disc brake on your F1TENTH vehicle. It is designed to enable controlled drifting and improved stopping power, with easy integration into your existing F1TENTH ROS 2 environment.
 
 ---
 
 ## Installation
 
-> [!Note]
+> **Note**
 > This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you have that environment set up before proceeding.
 
 ### 1. Clone the F1TENTH Project Repository
@@ -66,30 +66,36 @@ source ~/f1tenth_ws/install/setup.bash
 
 ### 7. Launch the Braking System
 
-> [!Warning]
-> Before launching, please ensure that your ESP32 and Joystick is connected to pi.
-> And ensure that in Pi have the docker [esp32_micro_ros](./docker-compose.yml) are place and is running.
+> **Warning**
+> Before launching, please ensure your ESP32 and joystick are connected to the Raspberry Pi.
+> Also ensure that the [esp32\_micro\_ros](./docker-compose.yml) docker container is present and running on the Pi.
 
 ```bash
 ros2 launch break_controller joystick.launch.py
 ```
 
-## 8. Verify Node and Topic is Running
+### 8. Verify Node and Topic Status
 
 ```bash
 ros2 node list
 ```
-Should show:
+
+You should see:
+
 ```
 /break_controller
 /joy_control
 /joy_node
 ```
-and topics 
+
+And for topics:
+
 ```bash
 ros2 topic list
 ```
-Should show:
+
+You should see:
+
 ```
 /cmd_vel
 /joy
@@ -98,30 +104,29 @@ Should show:
 /pwm_duty
 ```
 
-> [!Warning]
-> If you can't control the speed and braking before running [step 7](#7-launch-the-braking-system), please ensure that you have the following topics:
-> ``` bash
+> **Warning**
+> If you can't control the speed or braking after running [step 7](#7-launch-the-braking-system), please check if the following topics are visible:
+>
+> ```bash
 > /mode
 > /pwm_duty
 > ```
+>
 > If not, please reset the ESP32 by pressing the reset button on the board.
-> <p align="center">
->     <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
-> </p>
 
-
+<p align="center">
+    <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
+</p>
 
 ---
 
 ## Usage
 
-After launching the Braking System node, ensure your F1TENTH vehicle is equipped with the required disc brake hardware. The system can be controlled via joystick inputs, allowing for precise braking and drifting maneuvers.
+After launching the braking system node, ensure your F1TENTH vehicle is equipped with the required disc brake hardware. The system can be controlled via joystick inputs for precise braking and drifting maneuvers.
 
 <p align="center">
   <img src=".images/xbox_button.png" alt="Xbox Joystick" width="400" />
 </p>
-
-<p align="center">
 
 **Joystick controls for the braking system:**
 
@@ -134,8 +139,6 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | 10     | Enable speed control                       |
 | 11     | Activate speed (hold to control 0–2.5 m/s) |
 
-</p>
-
 ---
 
 ## Hardware
@@ -144,17 +147,16 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 
 ### Known Issues (MK I)
 
-* **1.1** Mount misalignment between the coil’s actuator surface and the brake disc 
+* **1.1** Mount misalignment between the coil’s actuator surface and the brake disc
 
 <p align="center">
     <img src=".images/problem_1.JPG" alt="coil" width="200" />
 </p>
 
-* **1.2** The current coil is physically too small to generate strong magnetic force due to tight mechanical space in the chassis. More space would improve performance.
+* **1.2** The current coil is physically too small to generate a strong magnetic force due to tight mechanical space in the chassis. More space would improve performance.
 
 ### Coil Specifications
 
-<p align="center">
 | Property         | Value              |
 | ---------------- | ------------------ |
 | Core Type        | Steel              |
@@ -165,10 +167,9 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | Resistance       | \~1.5 Ω            |
 | Current          | \~8 A              |
 | Application Load | \~2 kg             |
-</p>
 
 ### 🧮 Magnetic Force Estimation
-<p align="center">
+
 | Symbol | Value          | Description                   |
 | ------ | -------------- | ----------------------------- |
 | N      | 270 turns      | Number of coil windings       |
@@ -177,7 +178,6 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | g      | 0.0003 m       | Air gap (0.3 mm)              |
 | μᵣ     | 1000           | Relative permeability (steel) |
 | μ₀     | 4π × 10⁻⁷ H/m  | Vacuum permeability constant  |
-</p>
 
 $$
 F = \frac{N^2 \cdot \mu \cdot A \cdot I^2}{2 \cdot g^2}
