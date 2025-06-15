@@ -67,7 +67,8 @@ source ~/f1tenth_ws/install/setup.bash
 ### 7. Launch the Braking System
 
 > [!Warning]
-> Before launching, please ensure that your ESP32 is connected to the F1TENTH vehicle and Joystick is connected to pi.
+> Before launching, please ensure that your ESP32 and Joystick is connected to pi.
+> And ensure that in Pi have the docker [esp32_micro_ros](./docker-compose.yml) are place and is running.
 
 ```bash
 ros2 launch break_controller joystick.launch.py
