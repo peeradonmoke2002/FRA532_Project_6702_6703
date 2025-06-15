@@ -11,6 +11,8 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 ## Table of Contents
 - [Overview](#overview)
 - [Installation](#installation)
+- [Usage](#usage)
+- [Hardware](#hardware)
 - [Our Team](#our-team)
 
 ## Installation
@@ -55,15 +57,41 @@ colcon build --symlink-install
 source ~/f1tenth_ws/install/setup.bash
 ```
 
+### 7. Launch the Braking System
+```bash
+ros2 launch f1tenth_breaking_system joystick.launch.py
+```
+
 ---
+## Usage
+After launch the Braking System Node, To use the braking system, ensure your F1TENTH vehicle is equipped with the disc brake hardware. The system can be controlled via joystick inputs, allowing for precise braking and drifting maneuvers.
+
+<p align="center">
+    <img src=".images/xbox_button.png" alt="Xbox Joystick" />
+</p>
+
+Here are the joystick controls for the braking system:
+| Button | Action                |
+|--------|-----------------------|
+| B      | Direction (forward and Backward)             |
+| 3      | Control Sterring Left and right (horizontal)      |
+| 5      | Enable Break (Hold)       |
+| 6      | Active Break (Hold to control Level 0-100%)     |
+| 10     | Enable Control Speed      |
+| 11     | Active Speed (Hold to control Level 0 - 2.5 m/s)     |
+
+
+
+
 ## Hardware 
 
 Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 
 ### problem MK I
  problem 1.1 Mount Misalignment between the coil’s actuator surface and the brake target disc
-![coil](https://github.com/peeradonmoke2002/FRA532_Project_6702_6703/blob/main/.images/problem_1.JPG)
- problem 1.2  The current coil is physically too small to generate strong magnetic force because of tight mechanical space in the chassis. If more space were available
+<img src=".images/problem_1.JPG" alt="coil" width="200"/> 
+
+problem 1.2  The current coil is physically too small to generate strong magnetic force because of tight mechanical space in the chassis. If more space were available
 
 ### coil spec 
 
