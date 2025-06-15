@@ -66,6 +66,9 @@ source ~/f1tenth_ws/install/setup.bash
 
 ### 7. Launch the Braking System
 
+> [!Warning]
+> Before launching, please ensure that your ESP32 is connected to the F1TENTH vehicle and Joystick is connected to pi.
+
 ```bash
 ros2 launch break_controller joystick.launch.py
 ```
@@ -95,8 +98,7 @@ Should show:
 ```
 
 > [!Warning]
-> If you can't control the speed and braking before running [step 7](#7-launch-the-braking-system),  
-> please ensure that you have the following topics:
+> If you can't control the speed and braking before running [step 7](#7-launch-the-braking-system), please ensure that you have the following topics:
 > ``` bash
 > /mode
 > /pwm_duty
