@@ -61,9 +61,8 @@ source ~/f1tenth_ws/install/setup.bash
 Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 
 ### problem / Goal
-
-
-### Build instrutions
+ problem 1.1 Mount Misalignment between the coil’s actuator surface and the brake target disc
+ problem 1.2  The current coil is physically too small to generate strong magnetic force because of tight mechanical space in the chassis. If more space were available
 
 ### coil spec 
 
@@ -76,7 +75,25 @@ Braking Schematic: [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
 | Power | 12V DC |
 | Resistance | ~1.5 ohms  |
 | Current | ~8 amp |
+|Application Load |  ~2 KG |
 
+### 🧮 Magnetic Force Estimation
+
+
+| Symbol | Value                        | Description                     |
+|--------|------------------------------|---------------------------------|
+| N      | 270 turns                    | Number of coil windings         |
+| I      | 8 A                          | Coil current                    |
+| A      | 1.13 × 10⁻⁴ m²              | Core area (radius = 6 mm)       |
+| g      | 0.0003 m                     | Air gap (0.3 mm)                |
+| μᵣ     | 1000                         | Relative permeability (steel)   |
+| μ₀     | 4π × 10⁻⁷ H/m               | Vacuum permeability constant    |
+
+$$
+F = \frac{N^2 \cdot \mu \cdot A \cdot I^2}{2 \cdot g^2}
+$$
+
+- Estimated force = 60 N woth full load
 
 
 ---
