@@ -20,7 +20,7 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 The F1TENTH Braking System delivers both software and hardware for actuating a disc brake on your F1TENTH vehicle. It is designed to enable controlled drifting and improved stopping power, with easy integration into your existing F1TENTH ROS 2 environment.
 
----s
+---
 
 ## Installation
 
