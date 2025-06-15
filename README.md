@@ -95,15 +95,15 @@ Should show:
 ```
 
 > [!Warning]
-> If Can't control the speed and breaking before running step 7,
-> please ensure that have follwing topics:
+> If you can't control the speed and braking before running [step 7](#7-launch-the-braking-system),  
+> please ensure that you have the following topics:
 > ``` bash
 > /mode
 > /pwm_duty
 > ```
 > If not, please reset the ESP32 by pressing the reset button on the board.
 > <p align="center">
->     <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="200" />
+>     <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
 > </p>
 
 
