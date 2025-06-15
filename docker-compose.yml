@@ -1,9 +1,9 @@
 services:
   micro_ros_agent_esp32:
     image: microros/micro-ros-agent:humble
-    container_name: micro-ros-agent
+    container_name: micro-ros-agent-esp32
     network_mode: host
-    command: serial --dev /dev/ttyUSB0 --baudrate 115200
+    command: serial --dev /dev/ttyUSB1 --baudrate 115200
     devices:
-      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "/dev/ttyUSB1:/dev/ttyUSB1"
     restart: unless-stopped
