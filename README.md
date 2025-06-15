@@ -121,6 +121,8 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
   <img src=".images/xbox_button.png" alt="Xbox Joystick" width="400" />
 </p>
 
+<p align="center">
+
 **Joystick controls for the braking system:**
 
 | Button | Action                                     |
@@ -131,6 +133,8 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | 6      | Activate brake (hold to control 0–100%)    |
 | 10     | Enable speed control                       |
 | 11     | Activate speed (hold to control 0–2.5 m/s) |
+
+</p>
 
 ---
 
@@ -150,6 +154,7 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 
 ### Coil Specifications
 
+<p align="center">
 | Property         | Value              |
 | ---------------- | ------------------ |
 | Core Type        | Steel              |
@@ -160,9 +165,10 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | Resistance       | \~1.5 Ω            |
 | Current          | \~8 A              |
 | Application Load | \~2 kg             |
+</p>
 
 ### 🧮 Magnetic Force Estimation
-
+<p align="center">
 | Symbol | Value          | Description                   |
 | ------ | -------------- | ----------------------------- |
 | N      | 270 turns      | Number of coil windings       |
@@ -171,6 +177,7 @@ After launching the Braking System node, ensure your F1TENTH vehicle is equipped
 | g      | 0.0003 m       | Air gap (0.3 mm)              |
 | μᵣ     | 1000           | Relative permeability (steel) |
 | μ₀     | 4π × 10⁻⁷ H/m  | Vacuum permeability constant  |
+</p>
 
 $$
 F = \frac{N^2 \cdot \mu \cdot A \cdot I^2}{2 \cdot g^2}
