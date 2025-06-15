@@ -6,8 +6,12 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ---
 
+## System Overview
+![F1TENTH Braking System](.images/System_Overview.png)
+
 ## Table of Contents
 
+* [System Overview](#system-overview)
 * [Overview](#overview)
 * [Installation](#installation)
 * [Usage](#usage)
