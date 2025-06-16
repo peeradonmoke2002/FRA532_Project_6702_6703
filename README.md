@@ -6,12 +6,10 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ---
 
-## System Overview
-![F1TENTH Braking System](.images/System_Overview.png)
-
 ## Table of Contents
 
 * [System Overview](#system-overview)
+* [Break Node System Overview](#break-node-system-overview)
 * [Overview](#overview)
 * [Installation](#installation)
 * [Usage](#usage)
@@ -20,9 +18,43 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ---
 
-## Overview
+## System Overview
 
-The F1TENTH Braking System delivers both software and hardware for actuating a disc brake on your F1TENTH vehicle. It is designed to enable controlled drifting and improved stopping power, with easy integration into your existing F1TENTH ROS 2 environment.
+<p align="center">
+  <img src=".images/system_overview.png" alt="F1TENTH Braking System" width="800"/>
+</p>
+
+The F1TENTH Braking System integrates both software and hardware components to enable disc brake actuation and controlled drifting on your F1TENTH vehicle. The system uses ROS2 for modular communication between nodes, an ESP32 microcontroller for real-time brake control, and a dedicated coil-based disc brake mechanism for reliable stopping power.
+
+**Key features include:**
+
+* **Joystick-based control** for speed, steering, and braking.
+* **ROS2 nodes** handling command processing, including speed and brake logic.
+* **ESP32 microcontroller** with micro-ROS for low-latency actuation.
+* **Custom mechanical assemblies** for mounting and actuation.
+
+This architecture ensures the braking system is robust, easy to integrate, and well-suited for advanced driving maneuvers like drifting and emergency stops.
+
+---
+
+## Break Node System Overview
+
+<p align="center">
+  <img src=".images/break_node_overview.png" alt="Break Node System Overview" width="1000"/>
+</p>
+
+The **Break Node System** manages the actuation logic for the disc brake using ROS 2 topics and the ESP32 microcontroller. Its operation involves several key elements:
+
+* The **Joy Controller Node** receives joystick input and publishes two main commands:
+
+  * **Enable Break** (on `/mode` topic)
+  * **Break Level** (on `/pwm_duty` topic)
+* The **Dice Break System Node** acts as a command checker, ensuring the brake is only engaged if enabled. If the brake is not enabled, the system sends a duty of zero.
+* When enabled, the system passes the requested duty cycle to the ESP32 microcontroller, which then actuates the disc brake coil.
+* The ESP32, using micro-ROS, directly controls the disc brake coil based on incoming commands.
+
+This structure provides **safety** (the brake can only be actuated when enabled), **flexibility** (level-based braking), and real-time control suitable for F1TENTH autonomous driving.
+
 
 ---
 
