@@ -154,7 +154,7 @@ After launching the system, you can control braking and drifting via joystick in
 | 3      | Steer left/right (horizontal axis)         |
 | 5      | Enable brake (hold)                        |
 | 6      | Activate brake (hold to control 0–100%)    |
-| 10     | Enable speed control                       |
+| 10     | Enable speed and steering control                       |
 | 11     | Activate speed (hold to control 0–2.5 m/s) |
 
 ---
