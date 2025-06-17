@@ -37,8 +37,8 @@ class ABSBreakController(Node):
         # wheel speed as Float32 on /wheel_speed
         self.create_subscription(Float32,  'wheel_speed', self.cb_wheel, 10)
 
-        self.pub_mode     = self.create_publisher(Bool,  'mode',      10)
-        self.pub_pwm      = self.create_publisher(UInt8, 'pwm_duty',  10)
+        self.pub_mode     = self.create_publisher(Bool,  'break_mode',      10)
+        self.pub_pwm      = self.create_publisher(UInt8, 'break_pwm',  10)
         self.pub_cmd_vel  = self.create_publisher(Twist,  'cmd_vel',   10)
 
         # Timer for ABS control loop @ 50 Hz
