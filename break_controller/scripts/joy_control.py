@@ -53,10 +53,10 @@ class JoyControl(Node):
                         -self.V_MAX, self.V_MAX)
             )
 
-        # 3) Steering only if enable button is pressed
+        # 3) Steering only if enable button is pressed AND speed ≠ 0
         threshold = 0.1
         steer_angle = 0.0
-        if enable:
+        if enable and abs(speed) > 1e-3:  # only allow steering if moving
             raw_st = msg.axes[self.STEER_AXIS]
             if raw_st < -threshold:
                 steer_angle = -self.MAX_STEER_ANGLE  # Full Right
