@@ -38,33 +38,33 @@ class JoyControl(Node):
         if dir_pressed and not self._prev_dir_pressed:
             self.direction *= -1
             self.get_logger().info(
-                f'Direction → {"FORWARD" if self.direction > 0 else "REVERSE"}'
+                f'Direction → {"FORWARD" if self.direction>0 else "REVERSE"}'
             )
         self._prev_dir_pressed = dir_pressed
 
         # 2) Compute speed (only while dead-man held)
         speed = 0.0
-        enable = bool(msg.buttons[self.SPEED_ENABLE_BUTTON])
-        if enable:
-            raw = msg.axes[self.SPEED_AXIS]  # +1 unpressed → -1 full press
-            norm = (1.0 - raw) * 0.5         # [0..1]
+        if msg.buttons[self.SPEED_ENABLE_BUTTON]:
+            raw  = msg.axes[self.SPEED_AXIS]      # +1 unpressed → -1 full press
+            norm = (1.0 - raw) * 0.5               # [0..1]
             speed = float(
                 np.clip(norm * self.V_MAX * self.direction,
                         -self.V_MAX, self.V_MAX)
             )
 
-        # 3) Steering only if enable button is pressed AND speed ≠ 0
+        # 3) Discrete steering: Left, Center, Right (ignoring step control)
+        raw_st = msg.axes[self.STEER_AXIS]  # [-1..+1]
         threshold = 0.1
-        steer_angle = 0.0
-        if enable and abs(speed) > 1e-3:  # only allow steering if moving
-            raw_st = msg.axes[self.STEER_AXIS]
-            if raw_st < -threshold:
-                steer_angle = -self.MAX_STEER_ANGLE  # Full Right
-            elif raw_st > threshold:
-                steer_angle = self.MAX_STEER_ANGLE   # Full Left
-            else:
-                steer_angle = 0.0                    # Center
-        # else: steer_angle stays at 0.0 (Center)
+
+        if raw_st < -threshold:
+            # Full Right
+            steer_angle = -self.MAX_STEER_ANGLE
+        elif raw_st > threshold:
+            # Full Left
+            steer_angle = self.MAX_STEER_ANGLE
+        else:
+            # Center
+            steer_angle = 0.0
 
         # Calculate angular velocity from steering angle (bicycle model)
         if steer_angle == 0.0:
@@ -74,10 +74,9 @@ class JoyControl(Node):
             curvature = float(np.clip(curvature, -self.W_MAX, self.W_MAX))
 
         # 4) Publish cmd_vel (linear & angular)
-        self.twist.linear.x = speed
+        self.twist.linear.x  = speed
         self.twist.angular.z = curvature
         self.pub_tw.publish(self.twist)
-
         
 def main(args=None):
     rclpy.init(args=args)
