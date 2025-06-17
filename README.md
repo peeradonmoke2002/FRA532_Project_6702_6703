@@ -45,7 +45,7 @@ The **Break Node System** manages the actuation logic for the disc brake using R
 
 | Component              | Description                                                    |
 | ---------------------- | -------------------------------------------------------------- |
-| Joy Controller Node    | Publishes `/mode` (enable brake) and `/pwm_duty` (brake level) |
+| Joy Controller Node    | Publishes `/break_mode` (enable brake) and `/break_pwm` (brake level) |
 | Dice Break System Node | Checks enable flag, passes duty to ESP32 or zeroes if disabled |
 | ESP32 microcontroller  | Drives brake coil using micro-ROS commands                     |
 
@@ -126,12 +126,12 @@ Expected output:
 /cmd_vel
 /joy
 /joy/set_feedback
-/mode
-/pwm_duty
+/break_mode
+/break_pwm
 ```
 
 > [!WARNING]
-> If `/mode` and `/pwm_duty` are missing, press the reset button on the ESP32.
+> If `/break_mode` and `/break_pwm` are missing, press the reset button on the ESP32.
 ><p align="center">
 >    <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
 ></p>
