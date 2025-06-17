@@ -157,6 +157,11 @@ After launching the system, you can control braking and drifting via joystick in
 | 10     | Enable speed and steering control                       |
 | 11     | Activate speed (hold to control 0–2.5 m/s) |
 
+> [!CAUTION]
+> Don't hold press the break too long, as it may cause the brake to overheat and damage the coil and mosfet. The system is designed for short bursts of braking to allow for controlled drifting.
+
+
+
 ---
 
 ## Hardware
