@@ -53,7 +53,10 @@ class BreakController(Node):
             self.pub_cmd_vel.publish(self._zero_twist)
 
         # 5) Debug log
-        self.get_logger().debug(f"enabled={enabled}, raw={raw if enabled else 'N/A'}, duty={duty}")
+               # --- 5) Debug log ---
+        self.get_logger().debug(
+            f"enabled={enabled}, raw={raw:.2f}, duty={duty}"
+        )
 
 def main():
     rclpy.init()

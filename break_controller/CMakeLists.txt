@@ -30,6 +30,7 @@ install(PROGRAMS
   scripts/dummy_script.py
   scripts/break_controller.py
   scripts/joy_control.py
+  scripts/encoder2angle.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
