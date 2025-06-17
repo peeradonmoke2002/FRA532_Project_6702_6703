@@ -11,54 +11,65 @@ class BreakController(Node):
         super().__init__('break_controller')
 
         # === Configuration ===
-        self.enable_button = 6      # hold to enable braking input
-        self.trigger_axis  = 5      # L2 trigger
+        self.enable_button = 6      # hold to enable braking input (button index)
+        self.trigger_axis  = 5      # L2 trigger (axis index)
         self.max_duty      = 255    # full-scale PWM
         self.duty_scale    = 1      # fraction of max_duty
 
         # === ROS interfaces ===
-        self.create_subscription(Joy,  '/joy',       self.cb_joy,     10)
+        # 1) Joystick input
+        self.create_subscription(Joy,              '/joy',            self.cb_joy,     10)
+        # 2) Teleop cmd_vel (coming from your teleop node)
+        self.create_subscription(Twist,            '/teleop_cmd_vel', self.cb_cmd_vel, 10)
+        # 3) Publishers
         self.pub_mode       = self.create_publisher(Bool,   '/break_mode', 10)
         self.pub_pwm        = self.create_publisher(UInt8,  '/break_pwm',  10)
         self.pub_cmd_vel    = self.create_publisher(Twist,  '/cmd_vel',    10)
 
-        # Pre-create zero-Twist for quick reuse
-        self._zero_twist = Twist()
+        # Cache last steering command
+        self._last_angular_z = 0.0
 
     @staticmethod
     def _clamp(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
         return max(lo, min(hi, x))
 
+    def cb_cmd_vel(self, msg: Twist):
+        # Cache only the steering (angular.z) from teleop
+        self._last_angular_z = msg.angular.z
+
     def cb_joy(self, msg: Joy):
-        # --- always define raw so debug log never fails ---
+        # Ensure 'raw' always defined for logging
         raw = 0.0
 
-        # 1) Publish mode (enabled or not)
+        # 1) Are we in brake-enabled mode?
         enabled = (
             len(msg.buttons) > self.enable_button
             and msg.buttons[self.enable_button] == 1
         )
         self.pub_mode.publish(Bool(data=enabled))
 
-        # 2) Compute pwm_duty if enabled
+        # 2) Compute brake PWM duty if enabled
         if enabled and len(msg.axes) > self.trigger_axis:
-            raw = self._clamp(msg.axes[self.trigger_axis])  # [+1..-1]
-            normalized = (1.0 - raw) * 0.5                  # [0..1]
+            raw = self._clamp(msg.axes[self.trigger_axis])  # trigger axis value [+1..-1]
+            normalized = (1.0 - raw) * 0.5                  # map to [0..1]
             duty = int(normalized * self.max_duty * self.duty_scale)
         else:
             duty = 0
 
-        # 3) Publish PWM
+        # 3) Publish brake PWM
         self.pub_pwm.publish(UInt8(data=duty))
 
-        # 4) If there is braking force (duty > 0), send zero cmd_vel
+        # 4) If braking (duty > 0), publish a Twist with linear.x=0 but keep last angular.z
         if duty > 0:
-            self.pub_cmd_vel.publish(self._zero_twist)
+            twist = Twist()
+            twist.linear.x  = 0.0
+            twist.angular.z = self._last_angular_z
+            self.get_logger().info('Braking: linear.x=0, angular.z kept at {:.2f}'.format(self._last_angular_z))
+            self.pub_cmd_vel.publish(twist)
+        # else: do nothing—teleop node’s /teleop_cmd_vel continues driving
 
-        # 5) Debug log (now raw and duty always exist)
-        self.get_logger().debug(
-            f"enabled={enabled}, raw={raw:.2f}, duty={duty}"
-        )
+        # 5) Debug
+        self.get_logger().debug(f"enabled={enabled}, raw={raw:.2f}, duty={duty}")
 
 def main():
     rclpy.init()
