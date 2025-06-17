@@ -101,9 +101,9 @@ class JoyControl(Node):
             curvature = float(np.clip(curvature, -self.W_MAX, self.W_MAX))
 
 
-        # --- New: If braking, set linear.x = 0 ---
-        if self._break_pwm != 0:
-            speed = 0.0
+        # # --- New: If braking, set linear.x = 0 ---
+        # if self._break_pwm != 0:
+        #     speed = 0.0
 
         # Publish cmd_vel (linear & angular)
         self.twist.linear.x  = speed

@@ -60,16 +60,16 @@ class BreakController(Node):
         self.pub_pwm.publish(UInt8(data=duty))
 
         # 4) If braking (duty > 0), publish a Twist with linear.x=0 but keep last angular.z
-        if duty > 0:
-            twist = Twist()
-            twist.linear.x  = 0.0
-            twist.angular.z = self._last_angular_z
-            self.get_logger().info('Braking: linear.x=0, angular.z kept at {:.2f}'.format(self._last_angular_z))
-            self.pub_cmd_vel.publish(twist)
+        # if duty > 0:
+        #     twist = Twist()
+        #     twist.linear.x  = 0.0
+        #     twist.angular.z = self._last_angular_z
+        #     self.get_logger().info('Braking: linear.x=0, angular.z kept at {:.2f}'.format(self._last_angular_z))
+        #     self.pub_cmd_vel.publish(twist)
         # else: do nothing—teleop node’s /teleop_cmd_vel continues driving
 
         # 5) Debug
-        self.get_logger().debug(f"enabled={enabled}, raw={raw:.2f}, duty={duty}")
+        # self.get_logger().debug(f"enabled={enabled}, raw={raw:.2f}, duty={duty}")
 
 def main():
     rclpy.init()
