@@ -161,7 +161,17 @@ After launching the system, you can control braking and drifting via joystick in
 
 ## Hardware
 
-* **Braking Schematic:** [Schematic PDF](./doc/Schematic_break_2025-06-09.pdf)
+* **Braking Schematic:** [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
+
+### Known Issues (MK I)
+
+* **1.1** Mount misalignment between the coil’s actuator surface and the brake disc
+
+<p align="center">
+    <img src="./images/problem_1.JPG" alt="coil" width="200" />
+</p>
+
+* **1.2** The current coil is physically too small to generate a strong magnetic force due to tight mechanical space in the chassis. More space would improve performance.
 
 ### Coil Specifications
 
@@ -176,24 +186,23 @@ After launching the system, you can control braking and drifting via joystick in
 | Current          | \~8 A              |
 | Application Load | \~2 kg             |
 
-### Magnetic Force Estimation
+### 🧮 Magnetic Force Estimation
 
 | Symbol | Value          | Description                   |
 | ------ | -------------- | ----------------------------- |
 | N      | 270 turns      | Number of coil windings       |
 | I      | 8 A            | Coil current                  |
 | A      | 1.13 × 10⁻⁴ m² | Core area (radius = 6 mm)     |
-| g      | 0.0003 m       | Air gap                       |
+| g      | 0.0003 m       | Air gap (0.3 mm)              |
 | μᵣ     | 1000           | Relative permeability (steel) |
 | μ₀     | 4π × 10⁻⁷ H/m  | Vacuum permeability constant  |
-
-**Formula:**
 
 $$
 F = \frac{N^2 \cdot \mu \cdot A \cdot I^2}{2 \cdot g^2}
 $$
 
-**Estimated Force:** 60 N at full load
+* **Estimated force:** 60 N at full load
+
 
 ---
 
