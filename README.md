@@ -10,10 +10,10 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 * [System Overview](#system-overview)
 * [Break Node System Overview](#break-node-system-overview)
-* [Overview](#overview)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Hardware](#hardware)
+* [Additional Sensors](#additional-sensors)
 * [Our Team](#our-team)
 
 ---
@@ -21,71 +21,65 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 ## System Overview
 
 <p align="center">
-  <img src=".images/system_overview.png" alt="F1TENTH Braking System" width="800"/>
+  <img src="./images/system_overview.png" alt="F1TENTH Braking System" width="800"/>
 </p>
 
 The F1TENTH Braking System integrates both software and hardware components to enable disc brake actuation and controlled drifting on your F1TENTH vehicle. The system uses ROS2 for modular communication between nodes, an ESP32 microcontroller for real-time brake control, and a dedicated coil-based disc brake mechanism for reliable stopping power.
 
-**Key features include:**
+### Key Features
 
-* **Joystick-based control** for speed, steering, and braking.
-* **ROS2 nodes** handling command processing, including speed and brake logic.
-* **ESP32 microcontroller** with micro-ROS for low-latency actuation.
-* **Custom mechanical assemblies** for mounting and actuation.
-
-This architecture ensures the braking system is robust, easy to integrate, and well-suited for advanced driving maneuvers like drifting and emergency stops.
+* **Joystick-based control** for speed, steering, and braking
+* **ROS2 nodes** for modular command processing
+* **ESP32 microcontroller** with micro-ROS for low-latency actuation
+* **Custom mechanical assemblies** for brake actuation
 
 ---
 
 ## Break Node System Overview
 
 <p align="center">
-  <img src=".images/break_node_overview.png" alt="Break Node System Overview" width="1000"/>
+  <img src="./images/break_node_overview.png" alt="Break Node System Overview" width="1000"/>
 </p>
 
-The **Break Node System** manages the actuation logic for the disc brake using ROS 2 topics and the ESP32 microcontroller. Its operation involves several key elements:
+The **Break Node System** manages the actuation logic for the disc brake using ROS 2 topics and the ESP32 microcontroller:
 
-* The **Joy Controller Node** receives joystick input and publishes two main commands:
+| Component              | Description                                                    |
+| ---------------------- | -------------------------------------------------------------- |
+| Joy Controller Node    | Publishes `/mode` (enable brake) and `/pwm_duty` (brake level) |
+| Dice Break System Node | Checks enable flag, passes duty to ESP32 or zeroes if disabled |
+| ESP32 microcontroller  | Drives brake coil using micro-ROS commands                     |
 
-  * **Enable Break** (on `/mode` topic)
-  * **Break Level** (on `/pwm_duty` topic)
-* The **Dice Break System Node** acts as a command checker, ensuring the brake is only engaged if enabled. If the brake is not enabled, the system sends a duty of zero.
-* When enabled, the system passes the requested duty cycle to the ESP32 microcontroller, which then actuates the disc brake coil.
-* The ESP32, using micro-ROS, directly controls the disc brake coil based on incoming commands.
-
-This structure provides **safety** (the brake can only be actuated when enabled), **flexibility** (level-based braking), and real-time control suitable for F1TENTH autonomous driving.
-
+This structure ensures **safety**, **flexibility**, and **real-time control** for autonomous driving.
 
 ---
 
 ## Installation
 
-> [!NOTE]  
-> This package depends on the main [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT). Please ensure you have that environment set up before proceeding.
+> [!NOTE]
+> Ensure the [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT) environment is set up before proceeding.
 
-### 1. Clone the F1TENTH Project Repository
+1. **Clone F1TENTH Project:**
 
 ```bash
 git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 ```
 
-### 2. Set Up the Environment
+2. **Set Up Environment:**
+   Follow the [README guide](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md)
 
-Follow the instructions in the [F1TENTH Project README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to set up dependencies.
-
-### 3. Navigate to the `src` Directory
+3. **Navigate to src Directory:**
 
 ```bash
 cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 ```
 
-### 4. Clone the Braking System Package
+4. **Clone Brake Package:**
 
 ```bash
 git clone https://github.com/peeradonmoke2002/f1tenth_breaking_system.git
 ```
 
-### 5. Build the Workspace
+5. **Build the Workspace:**
 
 ```bash
 cd ~/f1tenth_ws/
@@ -94,28 +88,31 @@ rosdep install --from-paths src
 colcon build --symlink-install
 ```
 
-### 6. Source the Workspace
+6. **Source the Workspace:**
 
 ```bash
 source ~/f1tenth_ws/install/setup.bash
 ```
 
-### 7. Launch the Braking System
-> [!WARNING]
-> Before launching, please ensure your ESP32 and joystick are connected to the Raspberry Pi.
-> Also ensure that the [esp32\_micro\_ros](./docker-compose.yml) docker container is present and running on the Pi.
+7. **Launch Braking System:**
 
 ```bash
 ros2 launch break_controller joystick.launch.py
 ```
 
-### 8. Verify Node and Topic Status
+> [!WARNING] 
+>Ensure ESP32 and joystick are connected; also ensure `esp32_micro_ros` container is running.
+
+8. **Verify Status:**
 
 ```bash
 ros2 node list
+ros2 topic list
 ```
 
-You should see:
+Expected output:
+
+**Nodes:**
 
 ```
 /break_controller
@@ -123,13 +120,7 @@ You should see:
 /joy_node
 ```
 
-And for topics:
-
-```bash
-ros2 topic list
-```
-
-You should see:
+**Topics:**
 
 ```
 /cmd_vel
@@ -140,30 +131,22 @@ You should see:
 ```
 
 > [!WARNING]
-> If you can't control the speed or braking after running [step 7](#7-launch-the-braking-system), please check if the following topics are visible:
->
-> ```bash
-> /mode
-> /pwm_duty
-> ```
->
-> If not, please reset the ESP32 by pressing the reset button on the board.
-
-<p align="center">
-    <img src=".images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
-</p>
+> If `/mode` and `/pwm_duty` are missing, press the reset button on the ESP32.
+><p align="center">
+>    <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
+></p>
 
 ---
 
 ## Usage
 
-After launching the braking system node, ensure your F1TENTH vehicle is equipped with the required disc brake hardware. The system can be controlled via joystick inputs for precise braking and drifting maneuvers.
+After launching the system, you can control braking and drifting via joystick input.
 
 <p align="center">
-  <img src=".images/xbox_button.png" alt="Xbox Joystick" width="400" />
+  <img src="./images/xbox_button.png" alt="Xbox Joystick" width="400" />
 </p>
 
-**Joystick controls for the braking system:**
+### Joystick Mapping
 
 | Button | Action                                     |
 | ------ | ------------------------------------------ |
@@ -178,17 +161,7 @@ After launching the braking system node, ensure your F1TENTH vehicle is equipped
 
 ## Hardware
 
-* **Braking Schematic:** [Braking Schematic](/.doc/Schematic_break_2025-06-09.pdf)
-
-### Known Issues (MK I)
-
-* **1.1** Mount misalignment between the coil’s actuator surface and the brake disc
-
-<p align="center">
-    <img src=".images/problem_1.JPG" alt="coil" width="200" />
-</p>
-
-* **1.2** The current coil is physically too small to generate a strong magnetic force due to tight mechanical space in the chassis. More space would improve performance.
+* **Braking Schematic:** [Schematic PDF](./doc/Schematic_break_2025-06-09.pdf)
 
 ### Coil Specifications
 
@@ -203,28 +176,58 @@ After launching the braking system node, ensure your F1TENTH vehicle is equipped
 | Current          | \~8 A              |
 | Application Load | \~2 kg             |
 
-### 🧮 Magnetic Force Estimation
+### Magnetic Force Estimation
 
 | Symbol | Value          | Description                   |
 | ------ | -------------- | ----------------------------- |
 | N      | 270 turns      | Number of coil windings       |
 | I      | 8 A            | Coil current                  |
 | A      | 1.13 × 10⁻⁴ m² | Core area (radius = 6 mm)     |
-| g      | 0.0003 m       | Air gap (0.3 mm)              |
+| g      | 0.0003 m       | Air gap                       |
 | μᵣ     | 1000           | Relative permeability (steel) |
 | μ₀     | 4π × 10⁻⁷ H/m  | Vacuum permeability constant  |
+
+**Formula:**
 
 $$
 F = \frac{N^2 \cdot \mu \cdot A \cdot I^2}{2 \cdot g^2}
 $$
 
-* **Estimated force:** 60 N at full load
+**Estimated Force:** 60 N at full load
+
+---
+
+## Additional Sensors
+
+To enhance steering control, the system integrates an **AMT103 rotary encoder**, which provides high-resolution angular feedback to improve vehicle direction control.
+
+<p align="center">
+  <img src="./images/AMT103.png" alt="AMT103 Encoder" width="400"/>
+</p>
+
+### Encoder Usage
+
+1. **Check Topic:**
+First, ensure the encoder topic is available base from the system flow:
+```bash
+[AMT103 Encoder] → [ESP32 + micro-ROS] → [/enc_steer_raw] → [encoder2angle.py] → [/enc_steer]
+```
+To verify the encoder topic, run:
+```bash
+ros2 topic list  # Ensure /enc_steer_raw is visible
+```
+
+2. **Run Processing Script:**
+
+```bash
+ros2 run break_controller encoder2angle.py  # Publishes /enc_steer
+```
 
 ---
 
 ## Our Team
 
-* **67340700402** พงษ์พัฒน์ วงศ์กำแหงหาญ
-* **67340700403** พีรดนย์ เรืองแก้ว
-
----
+| Student ID  | Name                   |
+| ----------- | ---------------------- |
+| 67340700402 | พงษ์พัฒน์ วงศ์กำแหงหาญ |
+| 67340700403 | พีรดนย์ เรืองแก้ว      |
