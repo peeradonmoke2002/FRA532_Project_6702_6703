@@ -18,7 +18,7 @@ class BreakController(Node):
 
         # === ROS interfaces ===
         self.create_subscription(Joy,  'joy',     self.cb_joy,  10)
-        self.pub_mode       = self.create_publisher(Bool, 'break_mode',      10)
+        self.pub_mode       = self.create_publisher(Bool, 'break_mode',10)
         self.pub_pwm        = self.create_publisher(UInt8,'break_pwm', 10)
         self.pub_cmd_vel    = self.create_publisher(Twist,'cmd_vel',   10)
 

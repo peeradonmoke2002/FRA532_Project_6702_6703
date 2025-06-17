@@ -11,50 +11,57 @@ class JoyControl(Node):
         super().__init__('joy_control')
 
         # ===== CONFIGURATION =====
-        self.V_MAX               = 2.5       # m/s
-        self.MAX_STEER_ANGLE     = 0.698     # rad ≃ 40°
-        self.WHEELBASE           = 0.263     # m
-        self.W_MAX               = np.tan(self.MAX_STEER_ANGLE) / self.WHEELBASE
+        self.V_MAX           = 2.5       # m/s
+        self.MAX_STEER_ANGLE = 0.698     # rad ≃ 40°
+        self.WHEELBASE       = 0.263     # m
+        self.W_MAX           = np.tan(self.MAX_STEER_ANGLE) / self.WHEELBASE
 
-        # axes/buttons (just as before)
-        self.SPEED_AXIS          = 4         # right trigger
-        self.STEER_AXIS          = 0         # left stick horizontal
-        self.SPEED_ENABLE_BUTTON = 7         # dead-man
-        self.DIR_TOGGLE_BUTTON   = 1         # flip fwd/rev
+        # joystick mapping
+        self.SPEED_AXIS          = 4   # right trigger
+        self.STEER_AXIS          = 0   # left stick horizontal
+        self.SPEED_ENABLE_BUTTON = 7   # dead-man switch
+        self.DIR_TOGGLE_BUTTON   = 1   # forward/reverse toggle
 
-        # ===== STATE =====
-        self.direction           = 1
-        self._prev_dir_pressed   = False
+        # state
+        self.direction         = 1
+        self._prev_dir_pressed = False
 
         # ===== ROS INTERFACES =====
-        self.sub_joy = self.create_subscription(Joy, 'joy', self.joy_cb, 10)
+        self.sub_joy = self.create_subscription(Joy,  'joy',    self.joy_cb, 10)
         self.pub_tw  = self.create_publisher(Twist, 'cmd_vel', 10)
-        self.twist   = Twist()
+
+        self.twist = Twist()
 
     def joy_cb(self, msg: Joy):
         # 1) Toggle forward/reverse on rising edge
         dir_pressed = bool(msg.buttons[self.DIR_TOGGLE_BUTTON])
         if dir_pressed and not self._prev_dir_pressed:
             self.direction *= -1
-            self.get_logger().info(f'Direction → {"FORWARD" if self.direction>0 else "REVERSE"}')
+            self.get_logger().info(
+                f'Direction → {"FORWARD" if self.direction>0 else "REVERSE"}'
+            )
         self._prev_dir_pressed = dir_pressed
 
-        # 2) Speed mapping (only when dead-man held)
+        # 2) Compute speed (only while dead-man held)
         speed = 0.0
         if msg.buttons[self.SPEED_ENABLE_BUTTON]:
-            raw = msg.axes[self.SPEED_AXIS]      # +1 unpressed → -1 full press
-            norm = (1.0 - raw) * 0.5             # [0..1]
-            speed = float(np.clip(norm * self.V_MAX * self.direction,
-                                 -self.V_MAX, self.V_MAX))
+            raw  = msg.axes[self.SPEED_AXIS]      # +1 unpressed → -1 full press
+            norm = (1.0 - raw) * 0.5               # [0..1]
+            speed = float(
+                np.clip(norm * self.V_MAX * self.direction,
+                        -self.V_MAX, self.V_MAX)
+            )
 
-        # 3) Proportional steering (no more all-or-nothing)
-        raw_st = msg.axes[self.STEER_AXIS]      # [-1..+1]
-        steer = float(np.clip(raw_st * self.W_MAX,
-                              -self.W_MAX, self.W_MAX))
+        # 3) Compute stick-based curvature (proportional)
+        raw_st   = msg.axes[self.STEER_AXIS]      # [-1..+1]
+        curvature = float(
+            np.clip(raw_st * self.W_MAX,
+                    -self.W_MAX, self.W_MAX)
+        )
 
-        # 4) Publish Twist
+        # 4) Publish cmd_vel (linear & angular)
         self.twist.linear.x  = speed
-        self.twist.angular.z = steer
+        self.twist.angular.z = curvature
         self.pub_tw.publish(self.twist)
 
 def main(args=None):
