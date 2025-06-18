@@ -57,15 +57,18 @@ This structure ensures **safety**, **flexibility**, and **real-time control** fo
 
 > [!NOTE]
 > Ensure the [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT) environment is set up before proceeding.
+> This setup is shoud install on **Raspberry Pi** whcih is operating for F1TENTH Project.
 
 1. **Clone F1TENTH Project:**
+> [!IMPORTANT]
+> Ensure you have cloned the F1TENTH Project repository to your **Raspberry Pi** before proceeding with the brake system installation.
 
 ```bash
 git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 ```
 
 2. **Set Up Environment:**
-   Follow the [README guide](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md)
+   Follow the [README guide](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) and ensure docker compose file is set up correctly.
 
 3. **Navigate to src Directory:**
 
@@ -78,6 +81,18 @@ cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 ```bash
 git clone https://github.com/peeradonmoke2002/f1tenth_breaking_system.git
 ```
+
+6. **Access the ROS 2 Desktop via VNC**
+
+- **Find the IP Address of your Raspberry Pi (wlan0 interface):**
+  ```bash
+  ifconfig
+  ```
+- **Connect to the ROS 2 Desktop:**
+  Open a web browser on your computer and go to:  
+  `http://<Your-IP-Address>:6080/`  
+  Replace `<Your-IP-Address>` with the value found above.  
+  This will open the ROS 2 desktop environment via VNC in your browser.
 
 5. **Build the Workspace:**
 
@@ -93,17 +108,28 @@ colcon build --symlink-install
 ```bash
 source ~/f1tenth_ws/install/setup.bash
 ```
+---
 
-7. **Launch Braking System:**
+## Usage
+> [!IMPORTANT]
+> This section should start on VNC ROS 2 Desktop, which is running on **Raspberry Pi**. If not pls got to the [Installation](#installation) section.
+
+1. **Run Robot Command to start controlling `cmd_vel`:**
+
+```bash
+ros2 run robot_bridge Robot_command.py
+```
+
+2. **Launch Braking System:**
 
 ```bash
 ros2 launch break_controller joystick.launch.py
 ```
 
 > [!WARNING] 
->Ensure ESP32 and joystick are connected; also ensure `esp32_micro_ros` container is running.
+> Ensure ESP32 and joystick are connected; also ensure `micro-ros-esp32` container is running.
 
-8. **Verify Status:**
+2. **Verify Status:**
 
 ```bash
 ros2 node list
@@ -136,11 +162,8 @@ Expected output:
 >    <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
 ></p>
 
----
-
-## Usage
-
-After launching the system, you can control braking and drifting via joystick input.
+4. **Control Braking and Drifting:**
+  After launching the system, you can control braking and drifting via joystick input.
 
 <p align="center">
   <img src="./images/xbox_button.png" alt="Xbox Joystick" width="400" />
