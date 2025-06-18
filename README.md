@@ -129,7 +129,7 @@ ros2 launch break_controller joystick.launch.py
 > [!WARNING] 
 > Ensure ESP32 and joystick are connected; also ensure `micro-ros-esp32` container is running.
 
-2. **Verify Status:**
+3. **Verify Status:**
 
 ```bash
 ros2 node list
