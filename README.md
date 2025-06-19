@@ -55,12 +55,12 @@ This structure ensures **safety**, **flexibility**, and **real-time control** fo
 
 ## Installation
 
-> \[!NOTE]
+> [!NOTE]
 > Ensure the [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT) environment is set up before proceeding. This setup should be installed on a **Raspberry Pi**, which operates the F1TENTH Project.
 
 ### 1. Clone F1TENTH Project
 
-> \[!IMPORTANT]
+> [!IMPORTANT]
 > Clone the F1TENTH repository directly on your **Raspberry Pi** before continuing.
 
 ```bash
@@ -69,7 +69,7 @@ git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 
 ### 2. Set Up Environment
 
-Follow the [F1TENTH README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to configure your environment. Then **replace the `docker-compose.yml`** with the one from this repository to ensure brake system compatibility.
+Follow the [F1TENTH README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to configure your environment. Then **replace the [`docker-compose.yml`](./docker-compose.yml)** with the one from this repository to ensure brake system compatibility.
 
 ### 3. Navigate to `src` Directory
 
