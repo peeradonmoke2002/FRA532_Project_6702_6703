@@ -8,17 +8,16 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 
 ## 📖 Table of Contents
 
-* [🚗 System Overview](#system-overview)
-* [🔧 Break Node System Overview](#break-node-system-overview)
-* [⚙️ Installation](#installation)
-* [🎮 Usage](#usage)
-* [🔩 Hardware](#hardware)
-* [📐 Additional Sensors](#additional-sensors)
-* [👥 Our Team](#our-team)
+* [🚗 System Overview](#-system-overview)
+* [🔧 Break Node System Overview](#-break-node-system-overview)
+* [💻 Installation](#-installation)
+* [🎮 Usage](#-usage)
+* [📏 Additional Sensors](#-additional-sensors)
+* [🧑‍🤝‍🧑 Our Team](#-our-team)
 
 ---
 
-## 🧩 System Overview
+## 🚗 System Overview
 
 <p align="center">
   <img src="./images/system_overview.png" alt="F1TENTH Braking System" width="800"/>
