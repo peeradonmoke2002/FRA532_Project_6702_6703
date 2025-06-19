@@ -138,7 +138,7 @@ ros2 launch break_controller joystick.launch.py
 > \[!WARNING]
 > Make sure both the **ESP32** and **joystick** are connected. Also verify that the `micro-ros-esp32` Docker container is running.
 
-### 3. Verify Node and Topic Status
+2. **Verify Status:**
 
 ```bash
 ros2 node list
