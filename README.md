@@ -197,7 +197,7 @@ To control the braking system, use a joystick. The following table outlines the 
 To enhance steering control, the system integrates an **AMT103 rotary encoder**, which provides high-resolution angular feedback to improve vehicle direction control.
 
 <p align="center">
-  <img src="./images/AMT103.png" alt="AMT103 Encoder" width="400"/>
+  <img src="./images/AMT103.png" alt="AMT103 Encoder" width="200"/>
 </p>
 
 ### Encoder Usage
