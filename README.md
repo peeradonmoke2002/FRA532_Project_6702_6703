@@ -168,12 +168,12 @@ Expected Topics:
 
 > \[!WARNING]
 > If `/break_mode` or `/break_pwm` are missing, press the reset button on your ESP32 board.
+> <p align="center">
+>   <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
+> </p>
 
-<p align="center">
-  <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
-</p>
-
-### 4. Joystick Control Reference
+### 4. Joystick Control
+To control the braking system, use a joystick. The following table outlines the button mappings for the Xbox controller:
 
 <p align="center">
   <img src="./images/xbox_button.png" alt="Xbox Joystick" width="400" />
@@ -188,7 +188,7 @@ Expected Topics:
 | 10     | Enable speed and steering control           |
 | 11     | Apply throttle (0–2.5 m/s)                  |
 
-> \[!CAUTION]
+> [!CAUTION]
 > Do not hold the brake for long periods. Continuous actuation may cause overheating and damage to the coil or MOSFET. Use short bursts for optimal drifting.
 
 ---
