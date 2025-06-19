@@ -120,7 +120,7 @@ source ~/f1tenth_ws/install/setup.bash
 ## 🎮 Usage
 
 > [!IMPORTANT]
-> This section assumes you are running on the **VNC ROS 2 Desktop** on your Raspberry Pi. If not, please return to the [Installation](#installation) section.
+> This section assumes you are running on the **VNC ROS 2 Desktop** on your Raspberry Pi. If not, please return to the [Installation](#-installation) section.
 
 ### 1. Start Robot Command Node
 
