@@ -3,9 +3,9 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int64, Float64
 
-class EncoderToSteering(Node):
+class Encoder2Angle(Node):
     def __init__(self):
-        super().__init__('encoder_to_steering')
+        super().__init__('encoder2angle')
         # declare parameters with defaults
         self.declare_parameter('ppr', 2048)
         self.declare_parameter('offset', 0.0)
@@ -41,7 +41,7 @@ class EncoderToSteering(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = EncoderToSteering()
+    node = Encoder2Angle()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:

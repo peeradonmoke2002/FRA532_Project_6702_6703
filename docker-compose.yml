@@ -1,9 +1,55 @@
 services:
+
   micro_ros_agent_esp32:
     image: microros/micro-ros-agent:humble
     container_name: micro-ros-agent-esp32
     network_mode: host
-    command: serial --dev /dev/ttyUSB1 --baudrate 115200
+    command: serial --dev /dev/ttyACM1 --baudrate 115200
     devices:
-      - "/dev/ttyUSB1:/dev/ttyUSB1"
+      - "/dev/ttyACM1:/dev/ttyACM1"
     restart: unless-stopped
+    
+  micro_ros_agent:
+    image: microros/micro-ros-agent:humble
+    container_name: micro-ros-agent
+    network_mode: host
+    command: serial --dev /dev/ttyACM0 --baudrate 921600
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"
+    restart: unless-stopped
+    
+  desktop_ros2:
+    image: tiryoh/ros2-desktop-vnc:humble
+    # image: kkwxnn/f1tenth-vnc:humble
+    platform: linux/amd64
+    container_name: desktop_ros2
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    shm_size: 512m
+    ipc: host
+    ports:
+      - "6080:80"
+    volumes:
+      - /home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws:/home/ubuntu/f1tenth_ws:rw
+      - "/dev:/dev"
+      - "/dev/input:/dev/input"
+      - "/dev/bus/usb:/dev/bus/usb"
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - /dev/input/js0:/dev/input/js0
+    restart: unless-stopped
+
+
+  t265-humble:
+    image: nopparujan/t265-ros2-humble
+    container_name: t265-humble
+    network_mode: host
+    volumes:
+      - "/dev:/dev"
+    device_cgroup_rules:
+      - "c 81:* rmw"
+      - "c 189:* rmw"
+    command: /bin/bash -c "source /ros2_ws/install/setup.bash && ros2 launch realsense2_camera rs_launch.py"
+    restart: unless-stopped
+

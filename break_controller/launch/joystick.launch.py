@@ -27,4 +27,10 @@ def generate_launch_description():
             name='break_controller',
             output='screen',
         ),
+        Node(
+            package='break_controller',
+            executable='encoder2angle.py',
+            name='encoder2angle',
+        ),
+            
     ])
