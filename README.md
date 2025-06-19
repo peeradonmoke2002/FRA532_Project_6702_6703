@@ -24,12 +24,12 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
   <img src="./images/system_overview.png" alt="F1TENTH Braking System" width="800"/>
 </p>
 
-The F1TENTH Braking System integrates both software and hardware components to enable disc brake actuation and controlled drifting on your F1TENTH vehicle. The system uses ROS2 for modular communication between nodes, an ESP32 microcontroller for real-time brake control, and a dedicated coil-based disc brake mechanism for reliable stopping power.
+The F1TENTH Braking System integrates both software and hardware components to enable disc brake actuation and controlled drifting on your F1TENTH vehicle. The system uses ROS 2 for modular communication between nodes, an ESP32 microcontroller for real-time brake control, and a dedicated coil-based disc brake mechanism for reliable stopping power.
 
 ### Key Features
 
 * **Joystick-based control** for speed, steering, and braking
-* **ROS2 nodes** for modular command processing
+* **ROS 2 nodes** for modular command processing
 * **ESP32 microcontroller** with micro-ROS for low-latency actuation
 * **Custom mechanical assemblies** for brake actuation
 
@@ -43,11 +43,11 @@ The F1TENTH Braking System integrates both software and hardware components to e
 
 The **Break Node System** manages the actuation logic for the disc brake using ROS 2 topics and the ESP32 microcontroller:
 
-| Component              | Description                                                    |
-| ---------------------- | -------------------------------------------------------------- |
+| Component              | Description                                                           |
+| ---------------------- | --------------------------------------------------------------------- |
 | Joy Controller Node    | Publishes `/break_mode` (enable brake) and `/break_pwm` (brake level) |
-| Dice Break System Node | Checks enable flag, passes duty to ESP32 or zeroes if disabled |
-| ESP32 microcontroller  | Drives brake coil using micro-ROS commands                     |
+| Dice Break System Node | Checks enable flag, passes duty to ESP32 or zeroes if disabled        |
+| ESP32 microcontroller  | Drives brake coil using micro-ROS commands                            |
 
 This structure ensures **safety**, **flexibility**, and **real-time control** for autonomous driving.
 
@@ -55,46 +55,53 @@ This structure ensures **safety**, **flexibility**, and **real-time control** fo
 
 ## Installation
 
-> [!NOTE]
-> Ensure the [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT) environment is set up before proceeding.
-> This setup is shoud install on **Raspberry Pi** whcih is operating for F1TENTH Project.
+> \[!NOTE]
+> Ensure the [F1TENTH Project](https://github.com/kkwxnn/F1TENTH_PROJECT) environment is set up before proceeding. This setup should be installed on a **Raspberry Pi**, which operates the F1TENTH Project.
 
-1. **Clone F1TENTH Project:**
-> [!IMPORTANT]
-> Ensure you have cloned the F1TENTH Project repository to your **Raspberry Pi** before proceeding with the brake system installation.
+### 1. Clone F1TENTH Project
+
+> \[!IMPORTANT]
+> Clone the F1TENTH repository directly on your **Raspberry Pi** before continuing.
 
 ```bash
 git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 ```
 
-2. **Set Up Environment:**
-   Follow the [README guide](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) and ensure docker compose file is set up correctly.
+### 2. Set Up Environment
 
-3. **Navigate to src Directory:**
+Follow the [F1TENTH README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to configure your environment. Then **replace the `docker-compose.yml`** with the one from this repository to ensure brake system compatibility.
+
+### 3. Navigate to `src` Directory
 
 ```bash
 cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 ```
 
-4. **Clone Brake Package:**
+### 4. Clone Brake Package
 
 ```bash
 git clone https://github.com/peeradonmoke2002/f1tenth_breaking_system.git
 ```
 
-6. **Access the ROS 2 Desktop via VNC**
+### 5. Access ROS 2 Desktop via VNC
 
-- **Find the IP Address of your Raspberry Pi (wlan0 interface):**
-  ```bash
-  ifconfig
-  ```
-- **Connect to the ROS 2 Desktop:**
-  Open a web browser on your computer and go to:  
-  `http://<Your-IP-Address>:6080/`  
-  Replace `<Your-IP-Address>` with the value found above.  
-  This will open the ROS 2 desktop environment via VNC in your browser.
+1. **Find your Raspberry Pi IP (wlan0 interface):**
 
-5. **Build the Workspace:**
+```bash
+ifconfig
+```
+
+2. **Open VNC in a browser:**
+
+Navigate to:
+
+```
+http://<Your-IP-Address>:6080/
+```
+
+Replace `<Your-IP-Address>` with the one found in the previous step.
+
+### 6. Build the Workspace
 
 ```bash
 cd ~/f1tenth_ws/
@@ -103,87 +110,86 @@ rosdep install --from-paths src
 colcon build --symlink-install
 ```
 
-6. **Source the Workspace:**
+### 7. Source the Workspace
 
 ```bash
 source ~/f1tenth_ws/install/setup.bash
 ```
+
 ---
 
 ## Usage
-> [!IMPORTANT]
-> This section should start on VNC ROS 2 Desktop, which is running on **Raspberry Pi**. If not pls got to the [Installation](#installation) section.
 
-1. **Run Robot Command to start controlling `cmd_vel`:**
+> \[!IMPORTANT]
+> This section assumes you are running on the **VNC ROS 2 Desktop** on your Raspberry Pi. If not, please return to the [Installation](#installation) section.
+
+### 1. Start Robot Command Node
 
 ```bash
-ros2 run robot_bridge Robot_command.py
+ros2 run robot_bridge RobotCommand.py
 ```
 
-2. **Launch Braking System:**
+### 2. Launch Braking System
 
 ```bash
 ros2 launch break_controller joystick.launch.py
 ```
 
-> [!WARNING] 
-> Ensure ESP32 and joystick are connected; also ensure `micro-ros-esp32` container is running.
+> \[!WARNING]
+> Make sure both the **ESP32** and **joystick** are connected. Also verify that the `micro-ros-esp32` Docker container is running.
 
-2. **Verify Status:**
+### 3. Verify Node and Topic Status
 
 ```bash
 ros2 node list
 ros2 topic list
 ```
 
-Expected output:
-
-**Nodes:**
+Expected Nodes:
 
 ```
 /break_controller
 /joy_control
 /joy_node
+/robot_commnad_node
 ```
 
-**Topics:**
+Expected Topics:
 
 ```
 /cmd_vel
+/cmd_steer
+/mcu_cmd
 /joy
 /joy/set_feedback
 /break_mode
 /break_pwm
 ```
 
-> [!WARNING]
-> If `/break_mode` and `/break_pwm` are missing, press the reset button on the ESP32.
-><p align="center">
->    <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
-></p>
+> \[!WARNING]
+> If `/break_mode` or `/break_pwm` are missing, press the reset button on your ESP32 board.
 
-4. **Control Braking and Drifting:**
-  After launching the system, you can control braking and drifting via joystick input.
+<p align="center">
+  <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
+</p>
+
+### 4. Joystick Control Reference
 
 <p align="center">
   <img src="./images/xbox_button.png" alt="Xbox Joystick" width="400" />
 </p>
 
-### Joystick Mapping
+| Button | Action                                      |
+| ------ | ------------------------------------------- |
+| B      | Toggle driving direction (forward/backward) |
+| 3      | Steer left/right (horizontal axis)          |
+| 5      | Enable brake (hold)                         |
+| 6      | Apply brake force (hold, variable strength) |
+| 10     | Enable speed and steering control           |
+| 11     | Apply throttle (0–2.5 m/s)                  |
 
-| Button | Action                                     |
-| ------ | ------------------------------------------ |
-| B      | Change direction (forward/backward)        |
-| 3      | Steer left/right (horizontal axis)         |
-| 5      | Enable brake (hold)                        |
-| 6      | Activate brake (hold to control 0–100%)    |
-| 10     | Enable speed and steering control                       |
-| 11     | Activate speed (hold to control 0–2.5 m/s) |
-
-> [!CAUTION]
-> Don't hold press the break too long, as it may cause the brake to overheat and damage the coil and mosfet. The system is designed for short bursts of braking to allow for controlled drifting.
-
-
+> \[!CAUTION]
+> Do not hold the brake for long periods. Continuous actuation may cause overheating and damage to the coil or MOSFET. Use short bursts for optimal drifting.
 
 ---
 
@@ -231,7 +237,6 @@ $$
 
 * **Estimated force:** 60 N at full load
 
-
 ---
 
 ## Additional Sensors
@@ -244,17 +249,21 @@ To enhance steering control, the system integrates an **AMT103 rotary encoder**,
 
 ### Encoder Usage
 
-1. **Check Topic:**
-First, ensure the encoder topic is available base from the system flow:
-```bash
+#### 1. Check Topic
+
+Ensure the encoder topic is published as shown below:
+
+```
 [AMT103 Encoder] → [ESP32 + micro-ROS] → [/enc_steer_raw] → [encoder2angle.py] → [/enc_steer]
 ```
-To verify the encoder topic, run:
+
+To verify:
+
 ```bash
 ros2 topic list  # Ensure /enc_steer_raw is visible
 ```
 
-2. **Run Processing Script:**
+#### 2. Run Processing Script
 
 ```bash
 ros2 run break_controller encoder2angle.py  # Publishes /enc_steer
