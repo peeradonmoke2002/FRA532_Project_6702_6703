@@ -168,7 +168,6 @@ Expected Topics:
 
 > [!WARNING]
 > If `/break_mode` or `/break_pwm` are missing, press the reset button on your ESP32 board.
-
 > <p align="center">
 >   <img src="./images/esp32_resetbutton.png" alt="ESP32 Reset Button" width="400" />
 ></p>
