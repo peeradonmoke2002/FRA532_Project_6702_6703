@@ -13,8 +13,8 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 * [💻 Installation](#-installation)
 * [🎮 Usage](#-usage)
 * [📏 Additional Sensors](#-additional-sensors)
-* [🧑‍🤝‍🧑 Our Team](#-our-team)
 * [📐 Design Part](https://github.com/tangpongpat/FRA532_PRO_6702_6703_DESIGN)
+* [🧑‍🤝‍🧑 Our Team](#-our-team)
 
 ---
 
