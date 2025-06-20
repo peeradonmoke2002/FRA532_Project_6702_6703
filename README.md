@@ -71,6 +71,27 @@ git clone https://github.com/kkwxnn/F1TENTH_PROJECT.git
 
 Follow the [F1TENTH README](https://github.com/kkwxnn/F1TENTH_PROJECT/blob/humble/README.md) to configure your environment. Then **replace the [`docker-compose.yml`](./docker-compose.yml)** with the one from this repository to ensure brake system compatibility.
 
+- What new in this `docker-compose.yml`:
+  - Added `micro-ros-esp32` service for ESP32 communication.
+
+  ```dockerfile
+    micro_ros_agent_esp32:
+    image: microros/micro-ros-agent:humble
+    container_name: micro-ros-agent-esp32
+    network_mode: host
+    command: serial --dev /dev/ttyACM1 --baudrate 115200
+    devices:
+      - "/dev/ttyACM1:/dev/ttyACM1"
+    restart: unless-stopped
+    ```
+
+
+  - Configured `desktop_ros2` to incude joystock device.
+  ```dockerfile
+      devices:
+        - "/dev/input/js0:/dev/input/js0" # Joystick device
+  ```
+
 ### 3. Navigate to `src` Directory
 
 ```bash
