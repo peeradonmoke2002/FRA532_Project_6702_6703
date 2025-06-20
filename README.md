@@ -14,6 +14,7 @@ This package is part of the broader [F1TENTH Project](https://github.com/kkwxnn/
 * [🎮 Usage](#-usage)
 * [📏 Additional Sensors](#-additional-sensors)
 * [📐 Design Part](https://github.com/tangpongpat/FRA532_PRO_6702_6703_DESIGN)
+* [🧪 Experimental Coil Testing](#-experimental-coil-testing)
 * [🧑‍🤝‍🧑 Our Team](#-our-team)
 
 ---
@@ -228,7 +229,9 @@ To control the braking system, use a joystick. The following table outlines the 
 | 5      | Enable brake (hold)                         |
 | 6      | Apply brake force (hold, variable strength) |
 | 10     | Enable speed and steering control           |
-| 11     | Apply throttle (0–2.5 m/s)                  |
+| 9     | Apply throttle (current min speed–3.0 m/s)                  |
+| Y | Increase speed (max 3.0 m/s) |
+| A | Decrease speed (min 0.2 m/s) |
 
 > [!CAUTION]
 > Do not hold the brake for long periods. Continuous actuation may cause overheating and damage to the coil or MOSFET. Use short bursts for optimal drifting.
@@ -264,6 +267,34 @@ ros2 topic list  # Ensure /enc_steer_raw is visible
 ```bash
 ros2 run break_controller encoder2angle.py  # Publishes /enc_steer
 ```
+
+---
+## 🧪 Experimental Coil Testing
+
+### Experiment Setup
+<p align="center">
+  <img src="./images/experiment_setup.jpeg" alt="Experimental Setup" width="600
+"/>
+
+In this test, three rounds were conducted, each consisting of two braking methods: first using the ESC motor brake, followed by the coil brake. The setup involved marking clear start and brake initiation points to measure braking distances accurately.
+
+### Results
+
+Measurements from the tests exhibited a margin of error approximately ±3 cm. The results are summarized in the table below:
+
+| Round | Distance (cm) | Brake Type |
+| ----- | ------------- | ---------- |
+| 1     | 292           | ESC Motor  |
+| 1     | 146           | Coil Brake |
+| 2     | 284           | ESC Motor  |
+| 2     | 146.5         | Coil Brake |
+| 3     | 302           | ESC Motor  |
+| 3     | 168           | Coil Brake |
+
+
+### Conclusion
+The coil brake system significantly reduced the stopping distance compared to the ESC motor brake, proving its effectiveness for precise braking and controlled drifting applications within F1TENTH vehicles..
+
 
 ---
 
