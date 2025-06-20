@@ -228,10 +228,10 @@ To control the braking system, use a joystick. The following table outlines the 
 | 3      | Steer left/right (horizontal axis)          |
 | 5      | Enable brake (hold)                         |
 | 6      | Apply brake force (hold, variable strength) |
-| 10     | Enable speed and steering control           |
-| 9     | Apply throttle (current min speed–3.0 m/s)                  |
-| Y | Increase speed (max 3.0 m/s) |
-| A | Decrease speed (min 0.2 m/s) |
+| 10     | Enable speed and steering control                         |
+| 9      | Apply throttle (0.0 m/s up to current max speed setting)  |
+| Y      | Increase maximum speed (up to 3.0 m/s)                    |
+| A      | Decrease minimum speed (down to 0.2 m/s)                  |
 
 > [!CAUTION]
 > Do not hold the brake for long periods. Continuous actuation may cause overheating and damage to the coil or MOSFET. Use short bursts for optimal drifting.
