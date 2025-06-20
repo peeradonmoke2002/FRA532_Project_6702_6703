@@ -104,6 +104,27 @@ cd ~/F1TENTH_PROJECT/f1tenth_ws/src
 git clone https://github.com/peeradonmoke2002/f1tenth_breaking_system.git
 ```
 
+### 5. Restart Docker Services
+
+- Ensure you are in the `F1TENTH_PROJECT` directory:
+```bash
+cd ~/F1TENTH_PROJECT/
+```
+- Restart the Docker services to apply changes:
+
+```bash
+docker compose down
+```
+- Then start the services again:
+
+```bash
+docker compose up -d
+```
+>[!NOTE]
+> If not working try to restart your Raspberry Pi.
+
+
+
 ### 5. Access ROS 2 Desktop via VNC
 
 1. **Find your Raspberry Pi IP (wlan0 interface):**
