@@ -31,7 +31,7 @@ services:
     ports:
       - "6080:80"
     volumes:
-      - /home/peeradon-fibo/Project/F1TENTH_PROJECT/f1tenth_ws:/home/ubuntu/f1tenth_ws:rw
+      - /home/pi/F1TENTH_PROJECT/f1tenth_ws:/home/ubuntu/f1tenth_ws:rw
       - "/dev:/dev"
       - "/dev/input:/dev/input"
       - "/dev/bus/usb:/dev/bus/usb"
