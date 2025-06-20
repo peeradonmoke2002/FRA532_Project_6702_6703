@@ -178,7 +178,7 @@ ros2 launch break_controller joystick.launch.py
 ```
 
 > [!WARNING]
-> Make sure both the **ESP32** and **joystick** are connected. Also verify that the `micro-ros-esp32` Docker container is running.
+> Make sure the **ESP32** and **joystick** are connected. Verify that the `micro-ros-esp32` Docker container is actively running.
 
 ### 3. Verify Node and Topic Status
 
@@ -230,7 +230,7 @@ To control the braking system, use a joystick. The following table outlines the 
 | 10     | Enable speed and steering control           |
 | 11     | Apply throttle (0–2.5 m/s)                  |
 
-> \[!CAUTION]
+> [!CAUTION]
 > Do not hold the brake for long periods. Continuous actuation may cause overheating and damage to the coil or MOSFET. Use short bursts for optimal drifting.
 
 ---
