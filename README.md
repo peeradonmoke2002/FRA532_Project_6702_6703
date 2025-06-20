@@ -373,7 +373,7 @@ The following videos demonstrate the difference in understeering behavior betwee
 Inertial Braking Test Results
 
 <p align="center">
-  <img src="./images/experiment_setup.jpeg" alt="Experimental Setup" width="600
+  <img src="./images/test.gif" alt="Experimental Setup" width="600
 "/>
 
 To test the effectiveness of each braking method, the car was released from a fixed starting point and allowed to accelerate under consistent conditions. The braking system was activated when the car reached a marked finish line. Two braking methods were compared:
